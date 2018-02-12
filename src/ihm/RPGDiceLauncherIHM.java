@@ -5,7 +5,16 @@
  */
 package ihm;
 
-import rpgdicelauncher.RPGDiceLauncher;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import mechanisms.ACMechanisms;
+import mechanisms.ADDMechanisms;
+import mechanisms.FSMechanisms;
+import mechanisms.GameMechanisms;
+import mechanisms.GenericMechanisms;
+import mechanisms.P13Mechanisms;
+import mechanisms.SRMechanisms;
+import tools.RPGDLException;
 
 /**
  *
@@ -13,13 +22,63 @@ import rpgdicelauncher.RPGDiceLauncher;
  */
 public class RPGDiceLauncherIHM extends javax.swing.JFrame {
 
-  RPGDiceLauncher engine;
+  /**
+   * The game that is played of for which the dice launcher is needed.
+   */
+  private String game;
+  
+  /**
+   * The die mechanism related to the choosen game.
+   */
+  private GameMechanisms mechanisms;
   
   /**
    * Creates new form RPGDiceLauncherIHM
    */
   public RPGDiceLauncherIHM() {
     initComponents();
+    this.setTitle("RPG Dice Launcher v.1.0.0");
+    URL iconURL = getClass().getResource("favicon.png");
+    ImageIcon icon = new ImageIcon(iconURL);
+    this.setIconImage(icon.getImage());
+    this.setSize(320,150);
+  }
+  
+  /**
+   * Load the right game mechanisms according to what has been choosen. It is 
+   * dedicated to be set by the plugin RPGGameChooser. To be set by another
+   * component, whatever it is, it MUST consider the game as follows:
+   * - ADD for Advanced Dungeons and Dragons;
+   * - SR for Shadowrun;
+   * - Ac for Call of Cthulhu;
+   * - P13 for Patient 13;
+   * - FS for Feng Shui;
+   * - Generic for Generic game (default choice is none is recognized).
+   * 
+   * @param game The game choosen.
+   */
+  public void setGame(String game){
+    this.game = game;
+    switch(this.game){
+      case "ADD":
+        this.mechanisms = new ADDMechanisms();
+        break;
+      case "SR":
+        this.mechanisms = new SRMechanisms();
+        break;
+      case "AC":
+        this.mechanisms = new ACMechanisms();
+        break;
+      case "P13":
+        this.mechanisms = new P13Mechanisms();
+        break;
+      case "FS":
+        this.mechanisms = new FSMechanisms();
+        break;
+      default:
+        this.mechanisms = new GenericMechanisms();
+        break;
+    }
   }
   
   /**
@@ -31,21 +90,117 @@ public class RPGDiceLauncherIHM extends javax.swing.JFrame {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
+    jtfExpression = new javax.swing.JTextField();
+    jLabel1 = new javax.swing.JLabel();
+    jbtnLaunch = new javax.swing.JButton();
+    jLabel2 = new javax.swing.JLabel();
+    jlblResult = new javax.swing.JLabel();
+    jcbHelp = new javax.swing.JCheckBox();
+
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    setMaximumSize(new java.awt.Dimension(320, 150));
+    setMinimumSize(new java.awt.Dimension(320, 150));
+    setPreferredSize(new java.awt.Dimension(320, 150));
+    setResizable(false);
+
+    jtfExpression.setMaximumSize(new java.awt.Dimension(230, 25));
+    jtfExpression.setMinimumSize(new java.awt.Dimension(230, 25));
+    jtfExpression.setPreferredSize(new java.awt.Dimension(230, 25));
+
+    jLabel1.setText("Dices to launch:");
+
+    jbtnLaunch.setText("launch");
+    jbtnLaunch.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jbtnLaunchActionPerformed(evt);
+      }
+    });
+
+    jLabel2.setText("Result:");
+
+    jlblResult.setMaximumSize(new java.awt.Dimension(280, 30));
+    jlblResult.setMinimumSize(new java.awt.Dimension(280, 30));
+    jlblResult.setPreferredSize(new java.awt.Dimension(280, 30));
+
+    jcbHelp.setText("Help?");
+    jcbHelp.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jcbHelpActionPerformed(evt);
+      }
+    });
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 400, Short.MAX_VALUE)
+      .addGroup(layout.createSequentialGroup()
+        .addContainerGap()
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addComponent(jLabel2)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jtfExpression, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+              .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(121, 121, 121)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(jcbHelp)
+              .addComponent(jbtnLaunch))
+            .addGap(29, 29, 29))
+          .addGroup(layout.createSequentialGroup()
+            .addComponent(jlblResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 0, Short.MAX_VALUE))))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 300, Short.MAX_VALUE)
+      .addGroup(layout.createSequentialGroup()
+        .addContainerGap()
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+          .addComponent(jLabel1)
+          .addComponent(jcbHelp))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+          .addComponent(jtfExpression, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(jbtnLaunch))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(jLabel2)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(jlblResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
+
+  private void jbtnLaunchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLaunchActionPerformed
+    try{
+      jlblResult.setText("<html><body style='width: 210px'>" + 
+              mechanisms.launchDices(jtfExpression.getText()));
+    }
+    catch(RPGDLException e){
+      try{
+        GameMechanisms backup = new GenericMechanisms();                        // test if the user want to launch
+        jlblResult.setText("<html><body style='width: 210px'>" +                // another kind of test, not related
+                backup.launchDices(jtfExpression.getText()));                   // to the selected game.
+      }
+      catch(RPGDLException ee){
+        e.printStackTrace();
+      }
+    }
+  }//GEN-LAST:event_jbtnLaunchActionPerformed
+
+  private void jcbHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbHelpActionPerformed
+    if(jcbHelp.isSelected()){
+      jtfExpression.setText(mechanisms.helpExpression());
+    }
+    else{
+      jtfExpression.setText("");
+    }
+  }//GEN-LAST:event_jcbHelpActionPerformed
 
   /**
    * @param args the command line arguments
@@ -83,5 +238,11 @@ public class RPGDiceLauncherIHM extends javax.swing.JFrame {
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JLabel jLabel1;
+  private javax.swing.JLabel jLabel2;
+  private javax.swing.JButton jbtnLaunch;
+  private javax.swing.JCheckBox jcbHelp;
+  private javax.swing.JLabel jlblResult;
+  private javax.swing.JTextField jtfExpression;
   // End of variables declaration//GEN-END:variables
 }
