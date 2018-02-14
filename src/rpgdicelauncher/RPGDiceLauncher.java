@@ -13,7 +13,7 @@ import tools.RPGDLException;
 public class RPGDiceLauncher {
   
   /**
-   * The IHM related to the plugin.
+   * The IHM related to the plugin
    */
   private static RPGDiceLauncherIHM ihm;
   
